@@ -5,6 +5,7 @@ const Board = (props) => {
         <React.Fragment>
             최종테스트
             ㅎㅇㅎㅇ
+            제발 되라 
         </React.Fragment>
     )
 }
