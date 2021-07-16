@@ -3,7 +3,8 @@ import React from 'react';
 const Board = (props) => {
     return (
         <React.Fragment>
-            승규테스트
+            다시테스트1234
+            asdfasdfasdfsadf
         </React.Fragment>
     )
 }
