@@ -5,6 +5,7 @@ const Board = (props) => {
         <React.Fragment>
             최종테스트
             ㅎㅇㅎㅇ
+            변경점 추가
         </React.Fragment>
     )
 }
