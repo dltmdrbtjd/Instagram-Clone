@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import { Grid, Button, Input } from "../elem/index";
+import {Grid, Button, Input} from "../elem/index";
 
 const Login = (props) => {
     return (
