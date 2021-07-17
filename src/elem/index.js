@@ -1,7 +1,7 @@
-import Grid from './Grid';
-import Text from './Text';
-import Image from './Image';
-import Input from './Input';
-import Button from './Button';
+import Button from "./Button";
+import Grid from "./Grid";
+import Image from "./Image";
+import Input from "./Input";
+import Text from "./Text";
 
-export { Grid,Text,Image,Input,Button };
+export {Button, Grid,Image, Input, Text}

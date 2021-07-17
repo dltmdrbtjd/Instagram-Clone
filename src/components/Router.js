@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 // components
 import Home from '../pages/Home';
-import Board from '../pages/Board';
+import BoardDetail from '../pages/Board_Detail';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 
@@ -15,9 +15,9 @@ const Router = () => {
         <>
             <Switch>
                 <Route path='/' component={Home} exact />
-                <Route path='/board' component={Board} exact/>
                 <Route path='/login' component={Login} exact/>
                 <Route path='/signup' component={SignUp} exact/>
+                <Route path='/detail/:index' component={BoardDetail} exact />
                 <Redirect from='*' to='/' />
             </Switch>
         </>
