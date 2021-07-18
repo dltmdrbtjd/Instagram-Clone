@@ -2,11 +2,12 @@ import React from 'react';
 import styled from "styled-components";
 
 const Image = (props) => {
-    const {shape,src,size,_onClick} = props
+    const {paddingbot,shape,src,size,_onClick} = props
 
     const styles = {
         src: src,
         size: size,
+        paddingbot: paddingbot,
     }
 
     if(shape === "circle"){
@@ -36,6 +37,7 @@ Image.defaultProps = {
     size: 36,
     _onClick: () => {},
     cursor: null,
+    paddingbot: "108.5%"
 }
 
 const ImageDefault = styled.div`
@@ -54,7 +56,7 @@ const AspectOutter = styled.div`
 
 const AspectInner = styled.div`
     position: relative;
-    padding-bottom: 108.5%;
+    padding-bottom: ${(props) => props.paddingbot};
     overflow: hidden;
     background-image: url("${(props) => props.src}");
     background-size: cover;

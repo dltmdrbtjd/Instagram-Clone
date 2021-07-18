@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
 	board,
 	router: connectRouter(history),
 });
-const middleware = [thunk.withExtraArgument({ history: history }), logger];
+const middleware = [thunk.withExtraArgument({ history }), logger];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 export { history };

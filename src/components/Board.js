@@ -51,23 +51,25 @@ const Board = (props) => {
                                     <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{list.author}</Text>
                                     <Text size="14px">{list.content}</Text>
                                 </TextBox>
-                                <Text margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 2개 더보기</Text>
-                                <Grid>
+                                <Text margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 더보기</Text>
+                                <Grid height="50px" overflow="hidden">
                                         {list.comments.map((list,idx) => {
                                             return (
-                                                <Comment key={idx}>
-                                                    <TextBox>
-                                                        <Text bold cursor="pointer" size="14px" margin="0 10px 0 0">{list.commentAuthor}</Text>
-                                                        <Text size="14px">{list.content}</Text>
-                                                    </TextBox>
-                                                    <Grid cursor="pointer" width="auto">
-                                                        <FavoriteBorderIcon style={{ fontSize: 14 }}/>
-                                                    </Grid>
-                                                </Comment>
+                                                <>
+                                                    <Comment key={idx}>
+                                                        <TextBox>
+                                                            <Text bold cursor="pointer" size="14px" margin="0 10px 0 0">{list.commentAuthor}</Text>
+                                                            <Text size="14px">{list.content}</Text>
+                                                        </TextBox>
+                                                        <Grid cursor="pointer" width="auto">
+                                                            <FavoriteBorderIcon style={{ fontSize: 14 }}/>
+                                                        </Grid>
+                                                    </Comment>
+                                                </>
                                             )
                                         })}
-                                    <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{list.createAt}</Text>
                                 </Grid>
+                                <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{list.createAt}</Text>
                             </Grid>
                             <Grid bordertop is_flex height="40px" padding="25px 20px">
                                 <CommentArea placeholder="댓글 달기..."></CommentArea>
