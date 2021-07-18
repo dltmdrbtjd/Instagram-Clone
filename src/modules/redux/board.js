@@ -26,11 +26,10 @@ const loadBoardDB = () => {
     }
 }
 
-
 export default handleActions({
     [LOAD]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.boards
-    })
+    }),
 }, initialState)
 
 const boardActions = {

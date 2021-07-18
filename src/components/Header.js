@@ -6,6 +6,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 
+import { history } from '../modules/configStore';
+
 const Header = () => {
     return (
         <React.Fragment>
@@ -13,7 +15,9 @@ const Header = () => {
                 <Grid borderbot="1px solid #c4c4c4"index="1" bgColor="#ffffff" top="0" padding="15px 20px" width="100%" position="fixed" height="54px">
                     <FixedBox>
                         <Grid is_flex>
-                            <Grid width="104px" height="54px" cursor="pointer">
+                            <Grid _onClick={() => {
+                                history.push('/')
+                            }}width="104px" height="54px" cursor="pointer">
                                 <img alt="유저 프로필사진"width="104" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" />
                             </Grid>
                             <Grid width="auto" is_flex>

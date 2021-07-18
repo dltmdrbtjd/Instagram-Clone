@@ -18,7 +18,7 @@ const Router = () => {
                 <Route path='/login' component={Login} exact/>
                 <Route path='/signup' component={SignUp} exact/>
                 <Route path='/detail/:index' component={BoardDetail} exact />
-                <Redirect from='*' to='/' />
+                <Route component={Home} exact />
             </Switch>
         </>
     )

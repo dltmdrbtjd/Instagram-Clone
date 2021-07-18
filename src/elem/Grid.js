@@ -2,7 +2,32 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Grid = (props) => {
-    const { display,jContent,bordertop,borderbot,cover,pc,bgColor,index, left,top,radius, height, position, children, width, padding, margin, center, is_flex, border, cursor, _onClick, bg} = props;
+    const { 
+        overflow,
+        display,
+        jContent,
+        bordertop,
+        borderbot,
+        cover,
+        pc,
+        bgColor,
+        index, 
+        left,
+        top,
+        radius, 
+        height, 
+        position, 
+        children, 
+        width, 
+        padding, 
+        margin, 
+        center, 
+        is_flex, 
+        border, 
+        cursor, 
+        _onClick, 
+        bg} = props;
+
 
     const styles = {
         width: width,
@@ -24,6 +49,7 @@ const Grid = (props) => {
         cover: cover,
         borderbot: borderbot,
         bordertop: bordertop,
+        overflow: overflow,
         jContent: jContent,
         display: display,
     }
@@ -64,6 +90,7 @@ const GridBox = styled.div`
     z-index: ${(props) => props.index};
     background-color: ${(props) => props.bgColor};
     cursor: ${(props) => props.cursor};
+    overflow: ${(props) => (props.overflow)};
     display: ${(props) => props.display};
     justify-content: ${(props) => props.jContent};
 `;
