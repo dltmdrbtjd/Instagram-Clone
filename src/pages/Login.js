@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import { Grid, Button, Input, Text } from "../elem/index";
+import { useDispatch } from 'react-redux';
+import { userCreators } from '../modules/redux/user';
+import { history } from '../modules/configStore';
 
 const Login = (props) => {
+    const dispatch = useDispatch();
+    const [id, setId] = useState('');
+    const [pw, setPw] = useState('');
+
+    const login =() => {
+        dispatch(userCreators.setLoginDB(id,pw));
+    }
+
     return (
         <Container>
             <Grid margin="100px 0 10px" padding="10px 0" border="1px solid #8E8E8E" bgColor="#ffffff" width="350px" height="380px">
@@ -13,15 +24,19 @@ const Login = (props) => {
                     <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
                         <Input
                         placeholder="아이디 또는 이메일"
-                        />
+                        _onChange={(e)=>
+                            setId(e.target.value)
+                        }/>
                     </Grid>
                     <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
                         <Input
                         placeholder="비밀번호"
-                        />
+                        _onChange={(e)=>
+                            setPw(e.target.value)
+                        }/>
                     </Grid>
                     <Grid width="268px" height="30px" margin="14px 40px 14px 40px">
-                        <Button padding="6px 10px 6px 10px">
+                        <Button padding="6px 10px 6px 10px" _onClick={login}>
                             로그인
                         </Button>
                     </Grid>
@@ -36,7 +51,15 @@ const Login = (props) => {
                     </Secret>
                 </Grid>
                 <Grid margin="70px 0 10px" padding="10px 0px 10px 0px" border="1px solid #8E8E8E" bgColor="#ffffff"width="348px" height="63px">
-                    <Text>계정이 없으신가요? 가입하기</Text>
+                    <Text>계정이 없으신가요?
+                    <ATag 
+                    onClick={() => {
+                        props.history.push("/signup");
+                        console.log("성공");
+                    }} 
+                    >가입하기
+                        </ATag>
+                    </Text>
                 </Grid>
                 <Down>
                     <DownP>앱을 다운로드 하세요</DownP>
@@ -76,6 +99,10 @@ const Down = styled.div`
 
 const DownP = styled.p`
     font-size: 15px;
+`;
+
+const ATag = styled.a`
+    color :#0095f6;
 `;
 
 
