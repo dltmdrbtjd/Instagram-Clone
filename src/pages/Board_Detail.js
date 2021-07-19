@@ -8,9 +8,10 @@ import styled from 'styled-components';
 import { Grid, Text, Image} from '../elem/index';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded';
-import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 
-import { history } from '../modules/configStore';
+import CreateIcon from '@material-ui/icons/Create';
+import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const BoardDetail = (props) => {
     const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const BoardDetail = (props) => {
                             </TextBox>
                             <Text margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 2개 더보기</Text>
                             <Grid>
-                                {detail_board.comments && detail_board.comments.map((list,idx) => {
+                                {detail_board.comments.map((list,idx) => {
                                     return (
                                         <Comment key={idx}>
                                             <TextBox>
@@ -64,6 +65,8 @@ const BoardDetail = (props) => {
                                                 <Text size="14px">{list.content}</Text>
                                             </TextBox>
                                             <Grid cursor="pointer" width="auto">
+                                                <DeleteForeverIcon style={{ fontSize: 14, marginRight: "6px" }} />
+                                                <CreateIcon style={{ fontSize: 14, marginRight: "6px" }} />
                                                 <FavoriteBorderIcon style={{ fontSize: 14 }}/>
                                             </Grid>
                                         </Comment>
@@ -72,7 +75,7 @@ const BoardDetail = (props) => {
                                 <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{detail_board && detail_board.createAt}</Text>
                             </Grid>
                         </Grid>
-                        <Grid bordertop is_flex height="40px" padding="25px 20px">
+                        <Grid bordertop="1px solid #c4c4c4" is_flex height="40px" padding="25px 20px">
                             <CommentArea placeholder="댓글 달기..."></CommentArea>
                             <Text cursor="pointer" size="14px" color="#0095f6">게시</Text>
                         </Grid>
@@ -109,6 +112,7 @@ const Comment = styled.div`
 
 const TextBox = styled.div`
     display: flex;
+    width: 88%;
     margin-top: 10px;
 `;
 
