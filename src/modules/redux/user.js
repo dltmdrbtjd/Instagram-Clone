@@ -26,9 +26,15 @@ const setLoginDB = (id,pw) => {
         apis
         .login(id,pw)
         .then((res) => {
-            setCookie('is_login', 'true', 5);
-            dispatch(setLogin({id: id}));
+            console.log(res.data[0].username);
+			console.log(res.data[1].token);
+            setCookie('token', res.data[1].token, 7);
+			setCookie('username',res.data[0].username, 7);
+			dispatch(setLogin({id: id,}));
             history.replace('/');
+        })
+        .catch((err) => {
+            console.log(err)
         });
     };
 };
@@ -37,23 +43,22 @@ const registerDB = (email, nick, id, pw) => {
     return function (dispatch, getState, { history }) {
         apis
         .signup(email, nick, id, pw)
-        .then(() => {
-            setCookie('is_login','true',5);
-            dispatch(setLogin({id: id}));
-            history.push('/');
+        .then((res) => {
+            console.log(res)
+            history.push('/login');
+        })
+        .catch((err) => {
+            console.log(err);
         });
     };
 };
 
 const logOutDB = () => {
     return function (dispatch, getState, { history }) {
-        apis
-        .logOut()
-        .then(() => {
-            deleteCookie('is_login');
+            deleteCookie('token');
+            deleteCookie('username');
             dispatch(logOut());
-        });
-
+            history.push('/');
     };
 };
 
