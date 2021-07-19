@@ -19,15 +19,15 @@ const initialState = {
 const loadBoardDB = () => {
     return function (dispatch, getState, {history}){
         apis
-        .boards()
+        .articles()
         .then((res) => {
             dispatch(loadBoard(res.data))
-            console.log(res.data)
-            const commentsList = []
+            // const commentsList = []
             res.data.map((list) => {
-                commentsList.push(list.comments)
+                // commentsList.push(list.comments)
+                dispatch(commentsActions.commentsLOAD(list.articleId, list.comments))
             })
-            dispatch(commentsActions.commentsLOAD(commentsList))
+            // dispatch(commentsActions.commentsLOAD(commentsList))
         }).catch((err) => {
             console.log(err)
         })

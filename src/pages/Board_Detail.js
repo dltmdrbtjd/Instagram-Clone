@@ -20,6 +20,7 @@ const BoardDetail = (props) => {
     let board_index = parseInt(props.match.params.index);
 
     const detail_board = board_list[board_index];
+    console.log(detail_board)
 
     useEffect(() => {
         dispatch(boardActions.loadBoardDB())
@@ -57,7 +58,7 @@ const BoardDetail = (props) => {
                             </TextBox>
                             <Text margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 2개 더보기</Text>
                             <Grid>
-                                {detail_board.comments.map((list,idx) => {
+                                {detail_board.comments && detail_board.comments.map((list,idx) => {
                                     return (
                                         <Comment key={idx}>
                                             <TextBox>
