@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded';
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import { useDispatch,useSelector } from 'react-redux';
 import { boardActions } from '../modules/redux/board';
@@ -19,6 +21,8 @@ const Board = (props) => {
     },[])
 
     const board_list = useSelector((state) => state.board.list);
+    const comment_list = useSelector((state) => state.comments.list);
+    console.log(comment_list)
 
     return (
         <React.Fragment>
@@ -51,8 +55,10 @@ const Board = (props) => {
                                     <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{list.author}</Text>
                                     <Text size="14px">{list.content}</Text>
                                 </TextBox>
-                                <Text margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 더보기</Text>
-                                <Grid height="50px" overflow="hidden">
+                                <Text _onClick={() => {
+                                    history.push('/detail/'+idx)
+                                }}margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 더보기</Text>
+                                <Grid maxHeight="50px" overflow="hidden">
                                         {list.comments.map((list,idx) => {
                                             return (
                                                 <>
@@ -62,6 +68,8 @@ const Board = (props) => {
                                                             <Text size="14px">{list.content}</Text>
                                                         </TextBox>
                                                         <Grid cursor="pointer" width="auto">
+                                                            <DeleteForeverIcon style={{ fontSize: 14, marginRight: "6px" }} />
+                                                            <CreateIcon style={{ fontSize: 14, marginRight: "6px" }} />
                                                             <FavoriteBorderIcon style={{ fontSize: 14 }}/>
                                                         </Grid>
                                                     </Comment>
@@ -71,7 +79,7 @@ const Board = (props) => {
                                 </Grid>
                                 <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{list.createAt}</Text>
                             </Grid>
-                            <Grid bordertop is_flex height="40px" padding="25px 20px">
+                            <Grid bordertop="1px solid #c4c4c4" is_flex height="40px" padding="25px 20px">
                                 <CommentArea placeholder="댓글 달기..."></CommentArea>
                                 <Text cursor="pointer" size="14px" color="#0095f6">게시</Text>
                             </Grid>

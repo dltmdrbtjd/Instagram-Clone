@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const Grid = (props) => {
     const { 
+        maxHeight,
         overflow,
         display,
         jContent,
@@ -52,6 +53,7 @@ const Grid = (props) => {
         overflow: overflow,
         jContent: jContent,
         display: display,
+        maxHeight: maxHeight,
     }
 
     return (
@@ -72,6 +74,7 @@ Grid.defaultProps = {
 const GridBox = styled.div`
     width: ${(props) => props.width};
     height: ${(props) => props.height};
+    max-height: ${(props) => props.maxHeight};
     box-sizing: border-box;
     padding: ${(props) => props.padding};
     margin: ${(props) => props.margin};

@@ -2,6 +2,8 @@ import {createAction,handleActions} from 'redux-actions';
 import produce from 'immer';
 import { apis } from '../../shared/api';
 
+import { commentsActions } from './comments';
+
 // action
 const LOAD = 'board/LOAD';
 
@@ -20,6 +22,12 @@ const loadBoardDB = () => {
         .boards()
         .then((res) => {
             dispatch(loadBoard(res.data))
+            console.log(res.data)
+            const commentsList = []
+            res.data.map((list) => {
+                commentsList.push(list.comments)
+            })
+            dispatch(commentsActions.commentsLOAD(commentsList))
         }).catch((err) => {
             console.log(err)
         })
