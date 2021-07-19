@@ -78,6 +78,7 @@ const SignUp = (props) => {
                     </Grid>
                     <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
                         <Input
+                        type="password"
                         placeholder="비밀번호"
                         _onChange={(e)=> {setPw(e.target.value);}}
                         />
