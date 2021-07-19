@@ -1,8 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import { Grid, Button, Input, Text } from "../elem/index";
+import { useDispatch } from 'react-redux';
+import { userCreators } from '../modules/redux/user';
+import { idCheck, emailCheck, nickCheck } from '../shared/regExp';
+import { history } from '../modules/configStore';
 
 const SignUp = (props) => {
+    const dispatch = useDispatch();
+
+    const [id, setId] = useState('');
+    const [pw, setPw] = useState('');
+    const [email,setEmail] = useState('');
+    const [nick,setNick] = useState('');
+
+    const signup =() => {
+
+        if(email === '' || nick === '' || id === '' || pw === ''){
+            window.alert("이메일 , 닉네임 , 아이디, 비밀번호를 모두 입력해주세요!");
+            return;
+    }
+
+    if(!idCheck(id)){
+
+        window.alert("숫자 및 영어만 입력가능! 다시 확인해주세요!");
+        return;
+    }
+
+    if(!nickCheck(nick)){
+        window.alert("특수문자는 사용 불가능합니다 다시 확인해주세요!");
+        return;
+    }
+    if(!emailCheck(email)){
+        window.alert("올바른 이메일 형식으로 작성 부탁드립니다!");
+        return;
+    }
+
+    dispatch(userCreators.registerDB(email, nick, id, pw));
+
+    }
+        
+
     return (
         <Container>
             <Grid margin="100px 0 10px" padding="10px 0" border="1px solid #8E8E8E" bgColor="#ffffff" width="350px" height="490px">
@@ -23,31 +61,42 @@ const SignUp = (props) => {
                     <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
                         <Input
                         placeholder="이메일"
+                        _onChange={(e)=> {setEmail(e.target.value);}}
                         />
                     </Grid>
                     <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
                         <Input
-                        placeholder="이름"
+                        placeholder="닉네임"
+                        _onChange={(e)=> {setNick(e.target.value);}}
                         />
                     </Grid>
                     <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
                         <Input
                         placeholder="아이디"
+                        _onChange={(e)=> {setId(e.target.value);}}
                         />
                     </Grid>
                     <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
                         <Input
                         placeholder="비밀번호"
+                        _onChange={(e)=> {setPw(e.target.value);}}
                         />
                     </Grid>
                     <Grid width="268px" height="30px" margin="14px 40px 14px 40px">
-                        <Button padding="6px 10px 6px 10px">
+                        <Button padding="6px 10px 6px 10px" _onClick={signup}>
                             가입
                         </Button>
                     </Grid>
                 </Grid>
                 <Grid margin="180px 0 10px" padding="10px 0px 10px 0px" border="1px solid #8E8E8E" bgColor="#ffffff"width="348px" height="63px">
-                    <Text>계정이 없으신가요? 가입하기</Text>
+                    <Text>계정이 있으신가요? 
+                        <ATag
+                        onClick={() => {
+                            props.history.push("/login");
+                        }} 
+                        >로그인
+                            </ATag>
+                        </Text>
                 </Grid>
                 <Down>
                     <DownP>앱을 다운로드 하세요</DownP>
@@ -67,17 +116,6 @@ const Container = styled.div`
     height: 100%;
 `;
 
-const SecretP = styled.p`
-    font-size: 10px;
-`;
-
-const Secret = styled.div`
-    text-align: center;
-    width: 348px;
-    height: 20px;
-    margin-top: 20px;
-`;
-
 const Down = styled.div`
     text-align: center;
     width: 348px;
@@ -87,6 +125,10 @@ const Down = styled.div`
 
 const DownP = styled.p`
     font-size: 15px;
+`;
+
+const ATag = styled.a`
+    color :#0095f6;
 `;
 
 export default SignUp;
