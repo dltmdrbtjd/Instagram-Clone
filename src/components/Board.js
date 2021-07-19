@@ -21,8 +21,8 @@ const Board = (props) => {
     },[])
 
     const board_list = useSelector((state) => state.board.list);
-    const comment_list = useSelector((state) => state.comments.list);
-    console.log(comment_list)
+    const comments = useSelector((state) => state.comments.list);
+    console.log(comments)
 
     return (
         <React.Fragment>
@@ -39,7 +39,7 @@ const Board = (props) => {
                                     <Grid cursor="pointer">
                                         <FavoriteBorderIcon />
                                     </Grid>
-                                    <Grid key={list.boardId} _onClick={() => {
+                                    <Grid key={list.articleId} _onClick={() => {
                                         history.push("/detail/"+idx)
                                     }}cursor="pointer" margin="0 0 0 10px">
                                         <ChatBubbleOutlineRoundedIcon style={{ fontSize: 24}}/>
@@ -61,19 +61,15 @@ const Board = (props) => {
                                 <Grid maxHeight="50px" overflow="hidden">
                                         {list.comments.map((list,idx) => {
                                             return (
-                                                <>
-                                                    <Comment key={idx}>
-                                                        <TextBox>
-                                                            <Text bold cursor="pointer" size="14px" margin="0 10px 0 0">{list.commentAuthor}</Text>
-                                                            <Text size="14px">{list.content}</Text>
-                                                        </TextBox>
-                                                        <Grid cursor="pointer" width="auto">
-                                                            <DeleteForeverIcon style={{ fontSize: 14, marginRight: "6px" }} />
-                                                            <CreateIcon style={{ fontSize: 14, marginRight: "6px" }} />
-                                                            <FavoriteBorderIcon style={{ fontSize: 14 }}/>
-                                                        </Grid>
-                                                    </Comment>
-                                                </>
+                                                <Comment key={idx}>
+                                                    <TextBox>
+                                                        <Text bold cursor="pointer" size="14px" margin="0 10px 0 0">{list.commentAuthor}</Text>
+                                                        <Text size="14px">{list.content}</Text>
+                                                    </TextBox>
+                                                    <Grid cursor="pointer" width="auto">
+                                                        <FavoriteBorderIcon style={{ fontSize: 14 }}/>
+                                                    </Grid>
+                                                </Comment>
                                             )
                                         })}
                                 </Grid>

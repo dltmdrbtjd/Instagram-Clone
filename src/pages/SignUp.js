@@ -16,8 +16,8 @@ const SignUp = (props) => {
 
     const signup =() => {
 
-        if(email === '' || nick === '' || id === '' || pw === ''){
-            window.alert("이메일 , 닉네임 , 아이디, 비밀번호를 모두 입력해주세요!");
+    if(email === '' || nick === '' || id === '' || pw === ''){
+        window.alert("이메일 , 닉네임 , 아이디, 비밀번호를 모두 입력해주세요!");
             return;
     }
 
