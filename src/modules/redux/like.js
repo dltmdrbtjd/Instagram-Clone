@@ -7,15 +7,15 @@ const LIKE = 'article/LIKE';
 const AddLike = createAction(LIKE, (like) => ({like}));
 
 const initialState = {
-    like: null,
-} 
+    like: false,
+}
 
 const AddLikeDB = (articleId) => {
     return function(dispatch, getState, {history}){
         apis
         .like(articleId)
         .then((res) => {
-            console.log(res)
+            dispatch(AddLike(res.data))
         }).catch((err) => {
             console.log(err)
         })
@@ -24,7 +24,7 @@ const AddLikeDB = (articleId) => {
 
 export default handleActions({
     [LIKE]: (state,action) => produce(state, (draft) => {
-
+        draft.like = action.payload.like;
     })
 }, initialState)
 

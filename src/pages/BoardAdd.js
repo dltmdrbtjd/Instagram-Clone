@@ -39,9 +39,11 @@ const BoardAdd = (props) => {
     };
 
     const addBoard = () => {
-        const content = "content"
-        const imageUrl = "http://via.placeholder.com/400x300"
-        dispatch(boardActions.addBoardDB(content,imageUrl));
+        const contents = {
+            content: content,
+            imageUrl: "http://via.placeholder.com/400x300",
+        }
+        dispatch(boardActions.addBoardDB(contents));
     };
 
     const editBoard = () => {

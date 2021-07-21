@@ -45,6 +45,7 @@ const ElButton = styled.button`
     border-radius: 3px;
     box-sizing: border-box;
     border: none;
+    cursor: pointer
 `;
 
 const FloatButton = styled.button`

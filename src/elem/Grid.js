@@ -26,7 +26,8 @@ const Grid = (props) => {
         is_flex, 
         border, 
         cursor, 
-        _onClick, 
+        _onClick,
+        maxWidth, 
         bg} = props;
 
 
@@ -54,6 +55,7 @@ const Grid = (props) => {
         jContent: jContent,
         display: display,
         maxHeight: maxHeight,
+        maxWidth: maxWidth,
     }
 
     return (
@@ -75,6 +77,7 @@ const GridBox = styled.div`
     width: ${(props) => props.width};
     height: ${(props) => props.height};
     max-height: ${(props) => props.maxHeight};
+    max-width: ${(props) => props.maxWidth};
     box-sizing: border-box;
     padding: ${(props) => props.padding};
     margin: ${(props) => props.margin};

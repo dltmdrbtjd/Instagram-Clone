@@ -18,14 +18,14 @@ api.interceptors.request.use(function (config) {
 export const apis = {
     // board
     articles: () => api.get(`/api/articles`),
-    AddArticles: (content,imageUrl) => api.post(`/api/articles`,{content:content,imageUrl:imageUrl}), 
+    AddArticles: (contents) => api.post(`/api/articles`,contents), 
     DelArticles: (articleId) => api.delete(`/api/articles/${articleId}`),
     UpdateArticles: (articleId) => api.put(`/api/articles/${articleId}`),
 
     // comments
-    AddComment: (articleId) => api.post(`/api/articles/${articleId}/comments`),
+    AddComment: (articleId, content) => api.post(`/api/articles/${articleId}/comments`, {content: content}),
     DelComment: (articleId,commentId) => api.delete(`/api/articles/${articleId}/comments/${commentId}`),
-    UpdateComment: (articleId,commentId) => api.put(`/api/articles/${articleId}/comments/${commentId}`),
+    // UpdateComment: (articleId,commentId) => api.put(`/api/articles/${articleId}/comments/${commentId}`),
 
     // like
     like: (articleId) => api.post(`/api/articles/${articleId}/like`),
