@@ -6,6 +6,8 @@ import { apis } from '../../shared/api';
 /// articles
 const LOAD = 'article/LOAD';
 const DELETE = 'article/DELETE';
+const ADD = 'article/ADD';
+const EDIT = 'article/EDIT';
 /// comments
 const COMMENTLOAD = 'comment/LOAD';
 const COMMENTDELETE = 'comment/DELETE';
@@ -19,13 +21,14 @@ const LIKE = 'article/LIKE';
 /// article
 const loadArticle = createAction(LOAD, (articles) => ({articles}));
 const deleteArticle = createAction(DELETE, (articleId) => ({articleId}));
+const addArticle = createAction(ADD, (article) => ({article}));
+const editArticle = createAction(EDIT, (boardId,board) => ({boardId,board}))
 /// comments
 const loadComment = createAction(COMMENTLOAD, (comments) => ({comments}));
 const createComment = createAction(COMMENTCREATE, (index,newComment) => ({index,newComment}));
 const deleteComment = createAction(COMMENTDELETE, (index,commentId) => ({index,commentId}));
 /// like
 const togglelike = createAction(LIKE, (like) => ({like}));
-
 
 // initialState
 const initialState = {
@@ -103,6 +106,33 @@ const loadBoardDB = () => {
     }
 }
 
+const addBoardDB = (contents) => {
+    return function(dispatch, getState, {history}){
+        apis
+        .AddArticles(contents)
+        .then((res) => {
+            dispatch(addArticle(res.data))
+            history.push('/')
+            console.log(res)
+        }).catch((err) =>{
+            console.log(err)
+        })
+    }
+}
+
+const editBoardDB = (boardId,board) => {
+    return function(dispatch, getState, {history}){
+        apis
+        .UpdateArticles(boardId,board)
+        .then((res) => {
+            dispatch(editArticle(boardId,board))
+            console.log(res)
+        }).catch((err) =>{
+            console.log(err)
+        })
+    }
+}
+
 export default handleActions({
     [LOAD]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.articles
@@ -121,6 +151,13 @@ export default handleActions({
             (comment) => comment.commentId !== action.payload.commentId
         )
     }),
+    [ADD]: (state, action) => produce(state, (draft) => {
+        draft.list.unshift(action.payload.article)
+    }),
+    [EDIT]: (state, action) => produce(state, (draft) => {
+        let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+        draft.list[idx] = { ...draft.list[idx], ...action.payload.post }; 
+    }),
 }, initialState)
 
 const boardActions = {
@@ -129,6 +166,8 @@ const boardActions = {
     createCommentDB,
     deleteCommentDB,
     toggleLikeDB,
+    addBoardDB,
+    editBoardDB,
 }
 
 export { boardActions }

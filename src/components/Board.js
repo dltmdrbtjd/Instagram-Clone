@@ -35,14 +35,14 @@ const Board = (props) => {
                 return (
                         <Grid key={idx} position="relative" border="1px solid #c4c4c4" margin="30px 0 30px 0" bgColor="#ffffff">
                             <BoardHeader>
-                                <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"bg={list.authorProfileImageUrl} />
-                                <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{list.author}</Text>
+                                <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"bg={list && list.authorProfileImageUrl} />
+                                <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{list && list.author}</Text>
                             </BoardHeader>
-                            <Image shape="rectangle" src={list.imageUrl}/>
+                            <Image shape="rectangle" src={list && list.imageUrl}/>
                             <Grid is_flex padding="10px 20px">
                                 <Grid is_flex width="auto">
                                     <Grid cursor="pointer">
-                                        {!list.isLiked ? (
+                                        {list && !list.isLiked ? (
                                             <FavoriteBorderIcon onClick={() => {
                                                 dispatch(boardActions.toggleLikeDB(list.articleId))
                                             }}/>
@@ -52,7 +52,7 @@ const Board = (props) => {
                                             }}/>
                                         )}
                                     </Grid>
-                                    <Grid key={list.articleId} _onClick={() => {
+                                    <Grid key={list && list.articleId} _onClick={() => {
                                         history.push("/detail/"+idx)
                                     }}cursor="pointer" margin="0 0 0 10px">
                                         <ChatBubbleOutlineRoundedIcon style={{ fontSize: 24}}/>
@@ -63,16 +63,16 @@ const Board = (props) => {
                                 </Grid>
                             </Grid>
                             <Grid padding="0 20px">
-                                <Text cursor="pointer" size="14px" bold color="#262626">좋아요 {list.likeCount}개</Text>
+                                <Text cursor="pointer" size="14px" bold color="#262626">좋아요 {list && list.likeCount}개</Text>
                                 <TextBox >
-                                    <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{list.author}</Text>
-                                    <Text size="14px">{list.content}</Text>
+                                    <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{list && list.author}</Text>
+                                    <Text size="14px">{list && list.content}</Text>
                                 </TextBox>
                                 <Text _onClick={() => {
                                     history.push('/detail/'+idx)
                                 }}margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 더보기</Text>
                                 <Grid maxHeight="50px" overflow="hidden">
-                                        {list.comments.map((list,idx) => {
+                                        {list && list.comments.map((list,idx) => {
                                             return (
                                                 <Comment key={idx}>
                                                     <TextBox>
@@ -86,7 +86,7 @@ const Board = (props) => {
                                             )
                                         })}
                                 </Grid>
-                                <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{list.createAt}</Text>
+                                <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{list && list.createAt}</Text>
                             </Grid>
                             <Grid bordertop="1px solid #c4c4c4" is_flex height="40px" padding="25px 20px">
                                 <CommentArea value={comment} placeholder="댓글 달기..." onChange={(e) => {
