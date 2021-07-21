@@ -23,14 +23,14 @@ export const apis = {
     UpdateArticles: (articleId) => api.put(`/api/articles/${articleId}`),
 
     // comments
-    AddComment: (articleId) => api.post(`/api/articles/${articleId}/comments`),
+    AddComment: (articleId, content) => api.post(`/api/articles/${articleId}/comments`, {content: content}),
     DelComment: (articleId,commentId) => api.delete(`/api/articles/${articleId}/comments/${commentId}`),
-    UpdateComment: (articleId,commentId) => api.put(`/api/articles/${articleId}/comments/${commentId}`),
+    // UpdateComment: (articleId,commentId) => api.put(`/api/articles/${articleId}/comments/${commentId}`),
 
     // like
     like: (articleId) => api.post(`/api/articles/${articleId}/like`),
 
     // user
-    login: (id, pw) => api.post('/api/login', {username: id, password: pw}),
+    login: (id, pw) => api.post('/api/login', {usernameOrEmail: id, password: pw}),
     signup: (email, nick, id, pw) => api.post('/api/signup', {email: email, nickname: nick, username: id, password: pw}),
 };

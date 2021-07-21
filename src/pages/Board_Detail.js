@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { boardActions } from '../modules/redux/board';
@@ -7,20 +7,24 @@ import Header from '../components/Header';
 import styled from 'styled-components';
 import { Grid, Text, Image} from '../elem/index';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { red } from '@material-ui/core/colors';
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded';
 
-import CreateIcon from '@material-ui/icons/Create';
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const BoardDetail = (props) => {
+    const [comment, setComment] = useState('');
+    const onReset = () => {
+        setComment('');
+    }
     const dispatch = useDispatch();
     
     const board_list = useSelector((state) => state.board.list);
     let board_index = parseInt(props.match.params.index);
 
     const detail_board = board_list[board_index];
-    console.log(detail_board)
 
     useEffect(() => {
         dispatch(boardActions.loadBoardDB())
@@ -35,12 +39,23 @@ const BoardDetail = (props) => {
                         <BoardHeader>
                             <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"bg={detail_board && detail_board.authorProfileImageUrl} />
                             <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{detail_board && detail_board.author}</Text>
+                            <Text _onClick={() => {
+                                dispatch(boardActions.deleteArticleDB(detail_board.articleId))
+                            }}cursor="pointer">삭제</Text>
                         </BoardHeader>
                         <Image shape="rectangle" src={detail_board && detail_board.imageUrl}/>
                         <Grid is_flex padding="10px 20px">
                             <Grid is_flex width="auto">
                                 <Grid cursor="pointer">
-                                    <FavoriteBorderIcon />
+                                        {detail_board && !detail_board.isLiked ? (
+                                            <FavoriteBorderIcon onClick={() => {
+                                                dispatch(boardActions.toggleLikeDB(detail_board.articleId))
+                                            }}/>
+                                        ):(
+                                            <FavoriteIcon style={{ color: red[500]}} onClick={()=>{
+                                                dispatch(boardActions.toggleLikeDB(detail_board.articleId))
+                                            }}/>
+                                        )}
                                 </Grid>
                                 <Grid cursor="pointer" margin="0 0 0 10px">
                                     <ChatBubbleOutlineRoundedIcon style={{ fontSize: 24}}/>
@@ -51,14 +66,13 @@ const BoardDetail = (props) => {
                             </Grid>
                         </Grid>
                         <Grid padding="0 20px">
-                            <Text cursor="pointer" size="14px" bold color="#262626">좋아요 20개</Text>
+                            <Text cursor="pointer" size="14px" bold color="#262626">좋아요 {detail_board && detail_board.likeCount}개</Text>
                             <TextBox >
                                 <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{detail_board && detail_board.author}</Text>
-                                <Text size="14px">{detail_board && detail_board.content}</Text>
+                                <Text size="14px" margin="0 0 6px 0">{detail_board && detail_board.content}</Text>
                             </TextBox>
-                            <Text margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 2개 더보기</Text>
                             <Grid>
-                                {detail_board.comments && detail_board.comments.map((list,idx) => {
+                                {detail_board && detail_board.comments.map((list,idx) => {
                                     return (
                                         <Comment key={idx}>
                                             <TextBox>
@@ -66,8 +80,10 @@ const BoardDetail = (props) => {
                                                 <Text size="14px">{list.content}</Text>
                                             </TextBox>
                                             <Grid cursor="pointer" width="auto">
-                                                <DeleteForeverIcon style={{ fontSize: 14, marginRight: "6px" }} />
-                                                <CreateIcon style={{ fontSize: 14, marginRight: "6px" }} />
+                                                <DeleteForeverIcon onClick={() => {
+                                                    dispatch(boardActions.deleteCommentDB(list.articleId,list.commentId,board_index))
+                                                }}style={{ fontSize: 14, marginRight: "6px" }} />
+                                                {/* <CreateIcon style={{ fontSize: 14, marginRight: "6px" }} /> */}
                                                 <FavoriteBorderIcon style={{ fontSize: 14 }}/>
                                             </Grid>
                                         </Comment>
@@ -77,8 +93,13 @@ const BoardDetail = (props) => {
                             </Grid>
                         </Grid>
                         <Grid bordertop="1px solid #c4c4c4" is_flex height="40px" padding="25px 20px">
-                            <CommentArea placeholder="댓글 달기..."></CommentArea>
-                            <Text cursor="pointer" size="14px" color="#0095f6">게시</Text>
+                            <CommentArea value={comment} onChange={(e) => {
+                                setComment(e.target.value);
+                            }}placeholder="댓글 달기..."></CommentArea>
+                            <Text _onClick={() => {
+                                    dispatch(boardActions.createCommentDB(detail_board.articleId,comment,board_index))
+                                    onReset()
+                            }}cursor="pointer" size="14px" color="#0095f6">게시</Text>
                         </Grid>
                     </Grid>
                 </Section>

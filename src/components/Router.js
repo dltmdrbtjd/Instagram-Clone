@@ -4,10 +4,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 // components
-import Home from '../pages/Home';
-import BoardDetail from '../pages/Board_Detail';
-import Login from '../pages/Login';
-import SignUp from '../pages/SignUp';
+import { Home,BoardDetail,Login,SignUp,UserProfile,InfoChange } from '../pages';
 
 // 추가하실 페이지들은 여기 넣어주시면됩니다!ㅎㅎ
 const Router = () => {
@@ -18,6 +15,8 @@ const Router = () => {
                 <Route path='/login' component={Login} exact/>
                 <Route path='/signup' component={SignUp} exact/>
                 <Route path='/detail/:index' component={BoardDetail} exact />
+                <Route path='/userinfo' component={UserProfile} exact />
+                <Route path='/userinfo/infoChange' component={InfoChange} exact />
                 <Route component={Home} exact />
             </Switch>
         </>

@@ -23,7 +23,7 @@ const Input = (props) => {
     return (
         <React.Fragment>
             <Grid>
-                {label && <Text margin="5px" bold>{label}</Text>}
+                {label && <Text margin="0 0 6px 0" bold>{label}</Text>}
                 {is_submit ? (
                 <ElInput 
                     type={type}

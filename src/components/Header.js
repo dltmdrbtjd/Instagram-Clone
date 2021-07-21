@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import { Grid } from '../elem/index';
 import HomeIcon from '@material-ui/icons/Home';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
 
 import { history } from '../modules/configStore';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+
+    const user = useSelector((state) => state.user.user);
     return (
         <React.Fragment>
             <Grid>
@@ -22,16 +24,17 @@ const Header = () => {
                             </Grid>
                             <Grid width="auto" is_flex>
                                 <Grid cursor="pointer" margin="0 0 0 20px">
-                                    <HomeIcon />
+                                    <HomeIcon onClick={() => {
+                                        history.push('/')
+                                    }}/>
                                 </Grid>
                                 <Grid cursor="pointer" margin="0 0 0 20px">
                                     <AddBoxIcon />
                                 </Grid>
-                                <Grid cursor="pointer" margin="0 0 0 20px">
-                                    <BookmarkIcon />
-                                </Grid>
                                 <Grid>
-                                    <Grid cover pc cursor="pointer" margin="0 0 0 20px"radius="22px" height="22px" width="22px"bg="https://todayrecipe.s3.ap-northeast-2.amazonaws.com/%EB%A2%B0%EC%8A%A4%ED%8B%B0.jpg1626330561675.jpg"></Grid>
+                                    <Grid _onClick={() => {
+                                        history.push(`/userinfo/`)
+                                    }}cover pc cursor="pointer" margin="0 0 0 20px"radius="22px" height="22px" width="22px"bg="https://todayrecipe.s3.ap-northeast-2.amazonaws.com/%EB%A2%B0%EC%8A%A4%ED%8B%B0.jpg1626330561675.jpg"></Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
