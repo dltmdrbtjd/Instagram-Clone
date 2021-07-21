@@ -6,6 +6,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 // components
 import Home from '../pages/Home';
 import BoardDetail from '../pages/Board_Detail';
+import BoardAdd from '../pages/BoardAdd';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 
@@ -18,6 +19,7 @@ const Router = () => {
                 <Route path='/login' component={Login} exact/>
                 <Route path='/signup' component={SignUp} exact/>
                 <Route path='/detail/:index' component={BoardDetail} exact />
+                <Route path='/add' component={BoardAdd} exact/>
                 <Route component={Home} exact />
             </Switch>
         </>
