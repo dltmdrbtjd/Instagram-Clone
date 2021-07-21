@@ -5,5 +5,6 @@ import SignUp from "./SignUp";
 import UserProfile from "./UserProfile";
 import InfoChange from "./InfoChange";
 import BoardAdd from './BoardAdd';
+import BoardEdit from './BoardEdit';
 
-export {BoardAdd,BoardDetail, Home, Login, SignUp, UserProfile, InfoChange}
+export { BoardEdit, BoardAdd,BoardDetail, Home, Login, SignUp, UserProfile, InfoChange}
