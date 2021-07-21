@@ -18,7 +18,7 @@ api.interceptors.request.use(function (config) {
 export const apis = {
     // board
     articles: () => api.get(`/api/articles`),
-    AddArticles: () => api.post(`/api/articles`),
+    AddArticles: (content,imageUrl) => api.post(`/api/articles`,{content:content,imageUrl:imageUrl}), 
     DelArticles: (articleId) => api.delete(`/api/articles/${articleId}`),
     UpdateArticles: (articleId) => api.put(`/api/articles/${articleId}`),
 
@@ -31,6 +31,6 @@ export const apis = {
     like: (articleId) => api.post(`/api/articles/${articleId}/like`),
 
     // user
-    login: (id, pw) => api.post('/api/login', {username: id, password: pw}),
+    login: (id, pw) => api.post('/api/login', {usernameOrEmail: id, password: pw}),
     signup: (email, nick, id, pw) => api.post('/api/signup', {email: email, nickname: nick, username: id, password: pw}),
 };
