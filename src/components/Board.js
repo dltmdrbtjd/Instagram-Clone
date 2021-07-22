@@ -22,11 +22,9 @@ const Board = (props) => {
     const dispatch = useDispatch();
     
     const board_list = useSelector((state) => state.board.list);
-    // const like = useSelector((state) => state.board.like);
 
     useEffect(() => {
         dispatch(boardActions.loadBoardDB());
-        // dispatch(boardActions.getLikeDB(board_list));
     },[])
 
     return (
