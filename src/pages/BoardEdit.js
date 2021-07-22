@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { apis } from '../../shared/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { imageCreators } from '../modules/redux/image';
 import { boardActions } from '../modules/redux/board';
@@ -9,19 +10,19 @@ import AWS from 'aws-sdk';
 import Header from '../components/Header';
 import { Text, Input, Button , Grid , Image} from '../elem';
 
-const BoardAdd = (props) => {
+const BoardEdit = ({ match }) => {
     const dispatch = useDispatch();
     const preview = useSelector((state) => state.image.preview);
-    const [content, setContent] = React.useState('');
+    const [contents, setContents] = React.useState({content:''});
 
-    const contents = {
-        content: content,
-    };
+    const {
+        params: { id },
+    } = match;
 
     AWS.config.update({
 		region: 'ap-northeast-2',
 		credentials: new AWS.CognitoIdentityCredentials({
-			IdentityPoolId: 'ap-northeast-2:1a691b2f-007a-4b78-897e-97ed1d201f4d',
+			IdentityPoolId: 'ap-northeast-2:22534b72-b1ec-48e6-89f1-3b8e036b808b',
 		}),
 	});
 
@@ -42,11 +43,12 @@ const BoardAdd = (props) => {
         const file = fileInput.current.files[0];
 
         if (!file){
-            window.alert('이미지를 업로드 해주세요!');
-            return;
-        }
-        if (contents.content ===''){
-            window.alert('내용을 모두 작성해주세요!');
+            dispatch(imageCreators.imageUpload(contents.imageUrl));
+            const content = {
+                ...contents,
+                imageUrl: contents.imageUrl,
+            };
+            dispatch(boardActions.editBoardDB(id, content));
             return;
         }
         const upload = new AWS.S3.ManagedUpload({
@@ -56,7 +58,9 @@ const BoardAdd = (props) => {
                 Body: file,
             },
         });
+        
         const promise = upload.promise();
+
         promise 
         .then((data) => {
             dispatch(imageCreators.uploadImage(data.Location));
@@ -64,17 +68,26 @@ const BoardAdd = (props) => {
                 ...contents,
                 imageUrl: data.Location,
             };
-            console.log(content);
-            dispatch(boardActions.addBoardDB(content));
+            dispatch(boardActions.editBoardDB(id, content));
         })
         .catch((err) => {
             window.alert('이미지 업로드에 문제가 있습니다!', err);
         });
     };
     
-    const withoutImgPost = () => {
-        dispatch(boardActions.addBoardDB(content));
-    };
+    useEffect(() => {
+		const fetchArticle = async () => {
+			try {
+				const {
+					data: { content, imageUrl },
+				} = await apis.UpdateArticles(id)
+                setContents({content ,imageUrl});
+			} catch (e) {
+			}
+		};
+		fetchArticle();
+	}, [id]);
+
 
     return (
         <React.Fragment>
@@ -95,16 +108,21 @@ const BoardAdd = (props) => {
                     />
                     <Input
                     multiLine
-                    value={content}
+                    value={contents}
                     placeholder="게시물 내용을 입력해주세요!"
                     _onChange={(e) => {
-                        setContent(e.target.value);
+                        setContents({...contents, content: e.target.value});
                     }}
                     />
                     <Grid>
                         <Button
                         padding="10px"
-                        _onClick={fileInput ? selectFile : withoutImgPost}
+                        _onClick={() => {
+                            const result = window.confirm('게시물을 수정하시겠습니까??')
+                            if(result){
+                                selectFile();
+                            }
+                        }}
                         >게시글 작성
                         </Button>
                     </Grid>
@@ -142,5 +160,4 @@ const InputBox = styled.input`
     border-radius: .25em;
 
 `;
-
-export default BoardAdd;
+export default BoardEdit;

@@ -1,6 +1,7 @@
 import {createAction,handleActions} from 'redux-actions';
 import produce from 'immer';
 import { apis } from '../../shared/api';
+import { imageCreators } from './image';
 
 // action
 /// articles
@@ -21,8 +22,8 @@ const LIKE = 'article/LIKE';
 /// article
 const loadArticle = createAction(LOAD, (articles) => ({articles}));
 const deleteArticle = createAction(DELETE, (articleId) => ({articleId}));
-const addArticle = createAction(ADD, (article) => ({article}));
-const editArticle = createAction(EDIT, (boardId,board) => ({boardId,board}))
+const addArticle = createAction(ADD, (articles) => ({articles}));
+const editArticle = createAction(EDIT, (id,newArticle) => ({id,newArticle}))
 /// comments
 const loadComment = createAction(COMMENTLOAD, (comments) => ({comments}));
 const createComment = createAction(COMMENTCREATE, (index,newComment) => ({index,newComment}));
@@ -106,32 +107,31 @@ const loadBoardDB = () => {
     }
 }
 
-const addBoardDB = (contents) => {
+export const addBoardDB = (content) => {
     return function(dispatch, getState, {history}){
         apis
-        .AddArticles(contents)
-        .then((res) => {
-            dispatch(addArticle(res.data))
+        .AddArticles(content)
+        .then(() => {
+            dispatch(addArticle(content))
             history.push('/')
-            console.log(res)
-        }).catch((err) =>{
+            dispatch(imageCreators.setPreview(null));
+        })
+        .catch((err) =>{
             console.log(err)
         })
     }
 }
 
-const editBoardDB = (boardId,board) => {
-    return function(dispatch, getState, {history}){
-        apis
-        .UpdateArticles(boardId,board)
-        .then((res) => {
-            dispatch(editArticle(boardId,board))
-            console.log(res)
-        }).catch((err) =>{
-            console.log(err)
-        })
+const editBoardDB = (id,newArticle) => 
+    async (dispatch, getState, {history}) =>{
+        try {
+            await apis.UpdateArticles(id,newArticle);
+            dispatch(editArticle(id,newArticle));
+            history.goBack();
+        }catch (e){
+        }
     }
-}
+
 
 export default handleActions({
     [LOAD]: (state, action) => produce(state, (draft) => {
@@ -141,7 +141,7 @@ export default handleActions({
         draft.list = draft.list.filter((article) => article.articleId !== action.payload.articleId)
     }),
     [COMMENTLOAD]: (state, action) => produce(state, (draft) => {
-       draft.commentlist = action.payload.comments
+        draft.commentlist = action.payload.comments
     }),
     [COMMENTCREATE]: (state, action) => produce(state, (draft) => {
         draft.commentlist[action.payload.index] = action.payload.newComment
@@ -152,11 +152,10 @@ export default handleActions({
         )
     }),
     [ADD]: (state, action) => produce(state, (draft) => {
-        draft.list.unshift(action.payload.article)
-    }),
+				draft.list.push(action.payload.articles);
+			}),
     [EDIT]: (state, action) => produce(state, (draft) => {
-        let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
-        draft.list[idx] = { ...draft.list[idx], ...action.payload.post }; 
+        draft.list = action.payload.articles
     }),
 }, initialState)
 

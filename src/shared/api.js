@@ -18,9 +18,9 @@ api.interceptors.request.use(function (config) {
 export const apis = {
     // board
     articles: () => api.get(`/api/articles`),
-    AddArticles: (contents) => api.post(`/api/articles`,contents), 
+    AddArticles: (content) => api.post(`/api/articles`,content), 
     DelArticles: (articleId) => api.delete(`/api/articles/${articleId}`),
-    UpdateArticles: (articleId) => api.put(`/api/articles/${articleId}`),
+    UpdateArticles: (articleId , contents ) => api.put(`/api/articles/${articleId}`,contents),
 
     // comments
     AddComment: (articleId, content) => api.post(`/api/articles/${articleId}/comments`, {content: content}),
