@@ -13,7 +13,7 @@ const Router = () => {
                 <Route path='/' component={Home} exact />
                 <Route path='/login' component={Login} exact/>
                 <Route path='/signup' component={SignUp} exact/>
-                <Route path='/detail/:index' component={BoardDetail} exact />
+                <Route path='/detail/:id' component={BoardDetail} exact />
                 <Route path='/userinfo' component={UserProfile} exact />
                 <Route path='/userinfo/infoChange' component={InfoChange} exact />
                 <Route path='/add' component={BoardAdd} exact/>

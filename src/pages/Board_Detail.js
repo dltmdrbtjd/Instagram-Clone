@@ -20,14 +20,13 @@ const BoardDetail = (props) => {
         setComment('');
     }
     const dispatch = useDispatch();
-    
     const board_list = useSelector((state) => state.board.list);
-    let board_index = parseInt(props.match.params.index);
-
+    let board_index = parseInt(props.match.params.id);
     const detail_board = board_list[board_index];
+    const detail = useSelector((state) => state.board.detail);
 
     useEffect(() => {
-        dispatch(boardActions.loadBoardDB())
+        dispatch(boardActions.detailArticleDB(board_index));
     },[])
 
 
@@ -37,23 +36,23 @@ const BoardDetail = (props) => {
                 <Section>
                     <Grid position="relative" border="1px solid #c4c4c4" margin="30px 0 30px 0" bgColor="#ffffff">
                         <BoardHeader>
-                            <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"bg={detail_board && detail_board.authorProfileImageUrl} />
-                            <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{detail_board && detail_board.author}</Text>
+                            <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"bg={detail && detail.authorProfileImageUrl} />
+                            <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{detail && detail.author}</Text>
                             <Text _onClick={() => {
-                                dispatch(boardActions.deleteArticleDB(detail_board.articleId))
+                                dispatch(boardActions.deleteArticleDB(detail && detail.articleId))
                             }}cursor="pointer">삭제</Text>
                         </BoardHeader>
-                        <Image shape="rectangle" src={detail_board && detail_board.imageUrl}/>
+                        <Image shape="rectangle" src={detail && detail.imageUrl}/>
                         <Grid is_flex padding="10px 20px">
                             <Grid is_flex width="auto">
                                 <Grid cursor="pointer">
-                                        {detail_board && !detail_board.isLiked ? (
+                                        {detail && !detail.isLiked ? (
                                             <FavoriteBorderIcon onClick={() => {
-                                                dispatch(boardActions.toggleLikeDB(detail_board.articleId))
+                                                dispatch(boardActions.toggleLikeDB(detail.articleId))
                                             }}/>
                                         ):(
                                             <FavoriteIcon style={{ color: red[500]}} onClick={()=>{
-                                                dispatch(boardActions.toggleLikeDB(detail_board.articleId))
+                                                dispatch(boardActions.toggleLikeDB(detail.articleId))
                                             }}/>
                                         )}
                                 </Grid>
@@ -66,13 +65,13 @@ const BoardDetail = (props) => {
                             </Grid>
                         </Grid>
                         <Grid padding="0 20px">
-                            <Text cursor="pointer" size="14px" bold color="#262626">좋아요 {detail_board && detail_board.likeCount}개</Text>
+                            <Text cursor="pointer" size="14px" bold color="#262626">좋아요 {detail && detail.likeCount}개</Text>
                             <TextBox >
-                                <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{detail_board && detail_board.author}</Text>
-                                <Text size="14px" margin="0 0 6px 0">{detail_board && detail_board.content}</Text>
+                                <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{detail && detail.author}</Text>
+                                <Text size="14px" margin="0 0 6px 0">{detail && detail.content}</Text>
                             </TextBox>
                             <Grid>
-                                {detail_board && detail_board.comments.map((list,idx) => {
+                                {detail.comments && detail.comments.map((list,idx) => {
                                     return (
                                         <Comment key={idx}>
                                             <TextBox>
@@ -81,7 +80,7 @@ const BoardDetail = (props) => {
                                             </TextBox>
                                             <Grid cursor="pointer" width="auto">
                                                 <DeleteForeverIcon onClick={() => {
-                                                    dispatch(boardActions.deleteCommentDB(list.articleId,list.commentId,board_index))
+                                                    dispatch(boardActions.deleteCommentDB(list.articleId,list.commentId,list.articleId))
                                                 }}style={{ fontSize: 14, marginRight: "6px" }} />
                                                 {/* <CreateIcon style={{ fontSize: 14, marginRight: "6px" }} /> */}
                                                 <FavoriteBorderIcon style={{ fontSize: 14 }}/>
@@ -97,7 +96,7 @@ const BoardDetail = (props) => {
                                 setComment(e.target.value);
                             }}placeholder="댓글 달기..."></CommentArea>
                             <Text _onClick={() => {
-                                    dispatch(boardActions.createCommentDB(detail_board.articleId,comment,board_index))
+                                    dispatch(boardActions.createCommentDB(detail.articleId,comment,board_index))
                                     onReset()
                             }}cursor="pointer" size="14px" color="#0095f6">게시</Text>
                         </Grid>

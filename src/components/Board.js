@@ -53,7 +53,7 @@ const Board = (props) => {
                                         )}
                                     </Grid>
                                     <Grid key={list && list.articleId} _onClick={() => {
-                                        history.push("/detail/"+idx)
+                                        history.push(`/detail/${list.articleId}`)
                                     }}cursor="pointer" margin="0 0 0 10px">
                                         <ChatBubbleOutlineRoundedIcon style={{ fontSize: 24}}/>
                                     </Grid>
@@ -64,12 +64,12 @@ const Board = (props) => {
                             </Grid>
                             <Grid padding="0 20px">
                                 <Text cursor="pointer" size="14px" bold color="#262626">좋아요 {list && list.likeCount}개</Text>
-                                <TextBox >
+                                <TextBox>
                                     <Text cursor="pointer" bold size="14px" margin="0 10px 0 0">{list && list.author}</Text>
                                     <Text size="14px">{list && list.content}</Text>
                                 </TextBox>
                                 <Text _onClick={() => {
-                                    history.push('/detail/'+idx)
+                                    history.push(`/detail/${list.articleId}`)
                                 }}margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 더보기</Text>
                                 <Grid maxHeight="50px" overflow="hidden">
                                         {list && list.comments.map((list,idx) => {
@@ -94,6 +94,7 @@ const Board = (props) => {
                                 }}></CommentArea>
                                 <Text _onClick={() => {
                                     dispatch(boardActions.createCommentDB(list.articleId,comment))
+                                    dispatch(boardActions.loadBoardDB())
                                     onReset()
                                 }} cursor="pointer" size="14px" color="#0095f6">게시</Text>
                             </Grid>

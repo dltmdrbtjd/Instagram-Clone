@@ -4,13 +4,17 @@ import styled from 'styled-components';
 import { Grid } from '../elem/index';
 import HomeIcon from '@material-ui/icons/Home';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { history } from '../modules/configStore';
 import { useSelector } from 'react-redux';
+import { userCreators } from '../modules/redux/user';
+import { useDispatch } from 'react-redux';
 
 const Header = () => {
-
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
+    
     return (
         <React.Fragment>
             <Grid>
@@ -20,9 +24,14 @@ const Header = () => {
                             <Grid _onClick={() => {
                                 history.push('/')
                             }}width="104px" height="54px" cursor="pointer">
-                                <img alt="유저 프로필사진"width="104" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" />
+                                <img alt="로고"width="104" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" />
                             </Grid>
                             <Grid width="auto" is_flex>
+                                <Grid cursor="pointer">
+                                    <ExitToAppIcon onClick={() => {
+                                        dispatch(userCreators.logOutDB());
+                                    }}/>
+                                </Grid>
                                 <Grid cursor="pointer" margin="0 0 0 20px">
                                     <HomeIcon onClick={() => {
                                         history.push('/')
@@ -34,7 +43,7 @@ const Header = () => {
                                 <Grid>
                                     <Grid _onClick={() => {
                                         history.push(`/userinfo/`)
-                                    }}cover pc cursor="pointer" margin="0 0 0 20px"radius="22px" height="22px" width="22px"bg="https://todayrecipe.s3.ap-northeast-2.amazonaws.com/%EB%A2%B0%EC%8A%A4%ED%8B%B0.jpg1626330561675.jpg"></Grid>
+                                    }}cover="cover" position="center" cursor="pointer" margin="0 0 0 20px"radius="22px" height="22px" width="22px"bg={user && user.profileImage}></Grid>
                                 </Grid>
                             </Grid>
                         </Grid>

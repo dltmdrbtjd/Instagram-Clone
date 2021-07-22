@@ -26,9 +26,10 @@ const setLoginDB = (id,pw) => {
         apis
         .login(id,pw)
         .then((res) => {
-            setCookie('token', res.data[1].token, 7);
+            setCookie('token', res.data[2].token, 7);
 			localStorage.setItem('username',res.data[0].username, 7);
-			dispatch(setLogin({id: id,}));
+            localStorage.setItem('profileImage',res.data[1].profileImageUrl);
+			dispatch(setLogin({id: id,profileImage:res.data[1].profileImageUrl}));
             history.replace('/');
         })
         .catch((err) => {
@@ -63,9 +64,10 @@ const logOutDB = () => {
 const loginCheck = () => {
     return function (dispatch, getState, {history}){
         const userId = localStorage.getItem('username');
+        const profileImage = localStorage.getItem('profileImage');
         const tokenCheck = document.cookie;
         if(tokenCheck){
-            dispatch(setLogin({id: userId}))
+            dispatch(setLogin({id: userId,profileImage:profileImage}));
         } else {
             dispatch(logOutDB())
         }
@@ -89,6 +91,7 @@ const userCreators = {
     registerDB,
     logOutDB,
     loginCheck,
+    setLogin,
 }
 
 export { userCreators };
