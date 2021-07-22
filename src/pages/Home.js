@@ -4,11 +4,13 @@ import styled from 'styled-components';
 
 import Header from '../components/Header';
 import Board from '../components/Board';
+import Follow from '../components/Follow';
 
 const Home = (props) => {
     return (
         <React.Fragment>
             <Header />
+            <Follow />
             <Section>
                 <Board />
             </Section>
@@ -22,7 +24,7 @@ const Section = styled.section`
     width: 100%;
     position: absolute;
     left: 50%;
-    top: 54px;
+    top: 114px;
     transform: translateX(-50%);
 `;
 

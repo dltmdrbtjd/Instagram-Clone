@@ -9,6 +9,8 @@ const LOAD = 'article/LOAD';
 const DELETE = 'article/DELETE';
 const ADD = 'article/ADD';
 const EDIT = 'article/EDIT';
+const DETAIL = 'article/DETAIL';
+
 /// comments
 const COMMENTLOAD = 'comment/LOAD';
 const COMMENTDELETE = 'comment/DELETE';
@@ -20,6 +22,7 @@ const LIKE = 'article/LIKE';
 
 // action creator
 /// article
+const detailArticle = createAction(DETAIL, (article) => ({article}));
 const loadArticle = createAction(LOAD, (articles) => ({articles}));
 const deleteArticle = createAction(DELETE, (articleId) => ({articleId}));
 const addArticle = createAction(ADD, (articles) => ({articles}));
@@ -35,6 +38,7 @@ const togglelike = createAction(LIKE, (like) => ({like}));
 const initialState = {
     list: [],
     commentlist:[],
+    detail: [],
     board: null,
 }
 
@@ -45,6 +49,7 @@ const toggleLikeDB = (articleId, idx) => {
         .then((res) => {
             dispatch(togglelike(res.data));
             dispatch(loadBoardDB())
+            dispatch(detailArticleDB(articleId))
         })
     }
 }
@@ -57,6 +62,7 @@ const createCommentDB = (articleId,comment,index) => {
             const newComment = res.data
             dispatch(createComment(index,newComment))
             dispatch(loadBoardDB())
+            dispatch(detailArticleDB(articleId))
         }).catch((err) => {
             console.log(err)
         })
@@ -70,6 +76,7 @@ const deleteCommentDB = (articleId,commentId,index) => {
         .then((res) => {
             dispatch(deleteComment(index,commentId))
             dispatch(loadBoardDB())
+            dispatch(detailArticleDB(articleId))
         }).catch((err) => {
             console.log(err)
         })
@@ -83,6 +90,18 @@ const deleteArticleDB = (articleId) => {
         .then((res) => {
             dispatch(deleteArticle(articleId))
             history.replace('/');
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+}
+
+const detailArticleDB = (articleId) => {
+    return function(dispatch, getState, {history}){
+        apis
+        .DetailArticle(articleId)
+        .then((res) => {
+            dispatch(detailArticle(res.data))
         }).catch((err) => {
             console.log(err)
         })
@@ -113,7 +132,7 @@ export const addBoardDB = (content) => {
         .AddArticles(content)
         .then(() => {
             dispatch(addArticle(content))
-            history.push('/')
+            history.replace('/')
             dispatch(imageCreators.setPreview(null));
         })
         .catch((err) =>{
@@ -137,6 +156,9 @@ export default handleActions({
     [LOAD]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.articles
     }),
+    [DETAIL]: (state, action) => produce(state, (draft) => {
+        draft.detail = action.payload.article;
+    }),
     [DELETE]: (state, action) => produce(state, (draft) => {
         draft.list = draft.list.filter((article) => article.articleId !== action.payload.articleId)
     }),
@@ -147,9 +169,7 @@ export default handleActions({
         draft.commentlist[action.payload.index] = action.payload.newComment
     }),
     [COMMENTDELETE]: (state, action) => produce(state, (draft) => {
-        draft.commentlist[action.payload.index] = draft.commentlist[action.payload.index].filter(
-            (comment) => comment.commentId !== action.payload.commentId
-        )
+        
     }),
     [ADD]: (state, action) => produce(state, (draft) => {
 				draft.list.push(action.payload.articles);
@@ -167,6 +187,7 @@ const boardActions = {
     toggleLikeDB,
     addBoardDB,
     editBoardDB,
+    detailArticleDB,
 }
 
 export { boardActions }
