@@ -19,6 +19,8 @@
 - 상태관리 : Redux
 - 백엔드 : https://github.com/BlossomWhale/Instagram_Clone_sv
 - 기본 페이지 구성 : 로그인, 회원가입,메인페이지,게시글 작성 및 수정페이지, 상세페이지, 유저 프로필 페이지, 프로필 변경페이지
+- 배포 : AWS-S3
+- 이미지 관리 : AWS-S3
 
 ## Redux module 관리
 - board.js : 게시물 및 댓글 관련
