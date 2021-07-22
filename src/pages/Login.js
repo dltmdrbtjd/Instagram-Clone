@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import { Grid, Button, Input, Text } from "../elem/index";
+import Footer from '../components/Footer';
 import { useDispatch } from 'react-redux';
 import { userCreators } from '../modules/redux/user';
 import { history } from '../modules/configStore';
@@ -28,7 +29,7 @@ const Login = (props) => {
                             setId(e.target.value)
                         }/>
                     </Grid>
-                    <Grid width="268px" height="38px" margin="0px 40px 6px 40px">
+                    <Grid width="268px" height="38px" margin="10px 40px 6px 40px">
                         <Input
                         type="password"
                         placeholder="비밀번호"
@@ -36,48 +37,54 @@ const Login = (props) => {
                             setPw(e.target.value)
                         }/>
                     </Grid>
-                    <Grid width="268px" height="30px" margin="14px 40px 14px 40px">
+                    <Grid width="268px" height="30px" margin="34px 40px 14px 40px">
                         <Button padding="6px 10px 6px 10px" _onClick={login}>
                             로그인
                         </Button>
                     </Grid>
-                    <Grid width="268px" height="15px" margin="18px 40px 26px 40px">
-                        <Text>------또는------------------------------</Text>
-                    </Grid>
-                    <Grid width="268px" height="20px" margin="12px 40px 12px 40px">
-                        <Text>facebook 으로 로그인</Text>
+                    <Grid width="268px" height="20px" margin="32px 40px 12px 40px">
+                        <TextBox>
+                            <Text color ="#0095f6" >facebook 으로 로그인</Text>
+                        </TextBox>
                     </Grid>
                     <Secret>
                         <SecretP>비밀번호를 잊으셨나요?</SecretP>
                     </Secret>
                 </Grid>
-                <Grid margin="70px 0 10px" padding="10px 0px 10px 0px" border="1px solid #8E8E8E" bgColor="#ffffff"width="348px" height="63px">
-                    <Text>계정이 없으신가요?
-                    <ATag 
-                    onClick={() => {
-                        props.history.push("/signup");
-                        console.log("성공");
-                    }} 
-                    >가입하기
-                        </ATag>
-                    </Text>
+                <Grid margin="70px 0 10px" padding="22px 0px 10px 0px" border="1px solid #8E8E8E" bgColor="#ffffff"width="348px" height="63px">
+                    <TextBox>
+                        <span>계정이 없으신가요?</span>
+                        <Text 
+                        cursor="pointer"
+                        color ="#0095f6"
+                        _onClick={() => {
+                            props.history.push("/signup");
+                        }} 
+                        >가입하기
+                        </Text>
+                    </TextBox>
                 </Grid>
                 <Down>
                     <DownP>앱을 다운로드 하세요</DownP>
                 </Down>
+                <ImageContainer>
+                    <Grid cursor="pointer" cover="cover" margin="5px" width="135px" height="40px" bg="https://22instaclone.s3.ap-northeast-2.amazonaws.com/apple.jpg"></Grid>
+                    <Grid cursor="pointer" cover="cover" margin="5px" width="135px" height="40px" bg="https://22instaclone.s3.ap-northeast-2.amazonaws.com/google.jpg"></Grid>
+                </ImageContainer>
             </Grid>
+            <Footer/>
         </Container>
     )
 }
 
 const Container = styled.div`
-    top: 70%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #c4c4c4;
+    max-width: 350px;
+    margin: 0 auto;
     width: 100%;
-    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 54px;
+    transform: translateX(-50%);
 `;
 
 const SecretP = styled.p`
@@ -88,7 +95,7 @@ const Secret = styled.div`
     text-align: center;
     width: 348px;
     height: 20px;
-    margin-top: 20px;
+    margin-top: 30px;
 `;
 
 const Down = styled.div`
@@ -102,9 +109,24 @@ const DownP = styled.p`
     font-size: 15px;
 `;
 
-const ATag = styled.a`
-    color :#0095f6;
+const ImageContainer = styled.div`
+    width: 348px;
+    height: 53px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 `;
 
+const ImageA = styled.img`
+    width : 136px;
+    cursor: pointer;
+`;
+
+const TextBox = styled.div`
+    width: 100%;
+    display: flex;
+    text-align :center;
+    justify-content: center;
+`;
 
 export default Login;

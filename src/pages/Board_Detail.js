@@ -13,6 +13,7 @@ import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRo
 
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { history } from '../modules/configStore';
 
 const BoardDetail = (props) => {
     const [comment, setComment] = useState('');
@@ -20,9 +21,9 @@ const BoardDetail = (props) => {
         setComment('');
     }
     const dispatch = useDispatch();
-    const board_list = useSelector((state) => state.board.list);
+    // const board_list = useSelector((state) => state.board.list);
     let board_index = parseInt(props.match.params.id);
-    const detail_board = board_list[board_index];
+    // const detail_board = board_list[board_index];
     const detail = useSelector((state) => state.board.detail);
 
     useEffect(() => {
@@ -36,11 +37,18 @@ const BoardDetail = (props) => {
                 <Section>
                     <Grid position="relative" border="1px solid #c4c4c4" margin="30px 0 30px 0" bgColor="#ffffff">
                         <BoardHeader>
-                            <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"bg={detail && detail.authorProfileImageUrl} />
-                            <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{detail && detail.author}</Text>
-                            <Text _onClick={() => {
-                                dispatch(boardActions.deleteArticleDB(detail && detail.articleId))
-                            }}cursor="pointer">삭제</Text>
+                            <Grid width="20%" is_flex>
+                                <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"bg={detail && detail.authorProfileImageUrl} />
+                                <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{detail && detail.author}</Text>
+                            </Grid>
+                            <Grid width="22%" is_flex>
+                                <MiniBtn onClick={() => {
+                                    history.push(`/edit/${detail.articleId}`)
+                                }}>수정</MiniBtn>
+                                <MiniBtn onClick={() => {
+                                    dispatch(boardActions.deleteArticleDB(detail && detail.articleId))
+                                }}>삭제</MiniBtn>
+                            </Grid>
                         </BoardHeader>
                         <Image shape="rectangle" src={detail && detail.imageUrl}/>
                         <Grid is_flex padding="10px 20px">
@@ -88,7 +96,7 @@ const BoardDetail = (props) => {
                                         </Comment>
                                     )
                                 })}
-                                <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{detail_board && detail_board.createAt}</Text>
+                                <Text color="#c4c4c4" margin="10px 0 10px 0" size="10px">{detail && detail.createAt}</Text>
                             </Grid>
                         </Grid>
                         <Grid bordertop="1px solid #c4c4c4" is_flex height="40px" padding="25px 20px">
@@ -106,6 +114,14 @@ const BoardDetail = (props) => {
     )
 }
 
+const MiniBtn = styled.button`
+    cursor: pointer;
+    background-color: #f7f7f7;
+    padding: 6px 12px;
+    border: 1px solid #c4c4c4;
+    border-radius: 6px;
+    margin-right: 10px;
+`;
 
 const Section = styled.section`
     max-width: 600px;
@@ -140,6 +156,7 @@ const TextBox = styled.div`
 const BoardHeader = styled.header`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 60px;
 `;
 

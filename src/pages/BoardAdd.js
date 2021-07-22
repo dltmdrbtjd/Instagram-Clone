@@ -4,86 +4,109 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { imageCreators } from '../modules/redux/image';
 import { boardActions } from '../modules/redux/board';
+import AWS from 'aws-sdk';
 
 import Header from '../components/Header';
-import Upload from '../shared/Upload';
 import { Text, Input, Button , Grid , Image} from '../elem';
 
 const BoardAdd = (props) => {
     const dispatch = useDispatch();
     const preview = useSelector((state) => state.image.preview);
-    
-    const board_list = useSelector((state) => state.board.list);
-    const board_id = props.match.params.id;
-    const is_edit = board_id ? true : false;
-    const _board = is_edit ? board_list.find((p) => p.id === board_id) : null;
-    const { history } = props;
-    const [content, setContent] = React.useState(_board ? _board.content : "");
+    const [content, setContent] = React.useState('');
 
-    
-    React.useEffect(() => {
-        if (is_edit && !_board) {
-            window.alert("게시물에 정보가 없습니다!");
-            history.goBack();
+    const contents = {
+        content: content,
+    };
+
+    AWS.config.update({
+		region: 'ap-northeast-2',
+		credentials: new AWS.CognitoIdentityCredentials({
+			IdentityPoolId: 'ap-northeast-2:1a691b2f-007a-4b78-897e-97ed1d201f4d',
+		}),
+	});
+
+    const fileInput = React.useRef();
+
+    const filePreview = () => {
+		const reader = new FileReader();
+		const file = fileInput.current.files[0];
+
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+			dispatch(imageCreators.setPreview(reader.result));
+		};
+	};
+
+    const selectFile = () => {
+        const date = new Date();
+        const file = fileInput.current.files[0];
+
+        if (!file){
+            window.alert('이미지를 업로드 해주세요!');
             return;
         }
-        if (is_edit) {
-            dispatch(imageCreators.setPreview(_board.image_url));
-        } else{
-            dispatch(imageCreators.setPreview("http://via.placeholder.com/400x300"))
+        if (contents.content ===''){
+            window.alert('내용을 모두 작성해주세요!');
+            return;
         }
-    }, []);
-
-    const changeContent = (e) => {
-        setContent(e.target.value);
+        const upload = new AWS.S3.ManagedUpload({
+            params: {
+                Bucket : '22instaclone',
+                Key: file.name + date.getTime() + '.jpg',
+                Body: file,
+            },
+        });
+        const promise = upload.promise();
+        promise 
+        .then((data) => {
+            dispatch(imageCreators.uploadImage(data.Location));
+            const content = {
+                ...contents,
+                imageUrl: data.Location,
+            };
+            console.log(content);
+            dispatch(boardActions.addBoardDB(content));
+        })
+        .catch((err) => {
+            window.alert('이미지 업로드에 문제가 있습니다!', err);
+        });
     };
-
-    const addBoard = () => {
-        const contents = {
-            content: content,
-            imageUrl: "http://via.placeholder.com/400x300",
-        }
-        dispatch(boardActions.addBoardDB(contents));
+    
+    const withoutImgPost = () => {
+        dispatch(boardActions.addBoardDB(content));
     };
-
-    const editBoard = () => {
-        let board ={
-            content : content,
-            imageUrl: "http://via.placeholder.com/400x300",
-        }
-        dispatch(boardActions.editBoardDB(board_id,board));
-    };
-
-
 
     return (
         <React.Fragment>
             <Header/>
                 <Section>
                 <Grid position="relative" border="1px solid #c4c4c4" margin="30px 0 30px 0" bgColor="#ffffff">
-                    <BoardHeader>
-                        <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"/>
-                    </BoardHeader>
-                    <Text>
-                        {is_edit ? "게시글 수정" : "게시글 작성"}
+                    <Text margin="10px" bold size= "20px" color = "#646464" >
+                        게시글 작성
                     </Text>
-                    <Upload />
+                    <InputBox 
+                        type='file'
+                        ref={fileInput}
+                        onChange={filePreview}
+                    />
                     <Image 
                         shape="rectangle"
                         src={preview ? preview : "http://via.placeholder.com/400x300"}
                     />
                     <Input
-                    value={content}
-                    _onChange={changeContent}
-                    label="내용을 입력해주세요!"
                     multiLine
+                    value={content}
+                    placeholder="게시물 내용을 입력해주세요!"
+                    _onChange={(e) => {
+                        setContent(e.target.value);
+                    }}
                     />
                     <Grid>
-                    {is_edit ? (
-                        <Button _onClick={editBoard}>게시글 수정</Button>
-                    ) : (
-                        <Button _onClick={addBoard}>게시글 작성</Button>
-                    )}
+                        <Button
+                        padding="10px"
+                        _onClick={fileInput ? selectFile : withoutImgPost}
+                        >게시글 작성
+                        </Button>
                     </Grid>
                 </Grid>
             </Section>
@@ -103,10 +126,21 @@ const Section = styled.section`
     transform: translateX(-50%);
 `;
 
-const BoardHeader = styled.header`
-    display: flex;
-    align-items: center;
-    height: 60px;
+const InputBox = styled.input`
+    margin-left : 2px;
+    margin-bottom: 5px;
+    width :95%;
+    display: inline-block;
+    padding: .5em .75em;
+    color: #999; font-size:
+    inherit; line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+
 `;
 
 export default BoardAdd;

@@ -19,9 +19,9 @@ export const apis = {
     // board
     articles: () => api.get(`/api/articles`),
     DetailArticle: (articleId) => api.get(`/api/articles/${articleId}`),
-    AddArticles: (contents) => api.post(`/api/articles`,contents), 
+    AddArticles: (contents) => api.post(`/api/articles`,contents),
     DelArticles: (articleId) => api.delete(`/api/articles/${articleId}`),
-    UpdateArticles: (articleId) => api.put(`/api/articles/${articleId}`),
+    UpdateArticles: (articleId , content ) => api.put(`/api/articles/${articleId}`,{content:content}),
 
     // comments
     AddComment: (articleId, content) => api.post(`/api/articles/${articleId}/comments`, {content: content}),

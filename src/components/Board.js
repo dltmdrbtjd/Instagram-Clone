@@ -31,7 +31,7 @@ const Board = (props) => {
 
     return (
         <React.Fragment>
-            {board_list.map((list,idx) => {
+            {board_list && board_list.map((list,idx) => {
                 return (
                         <Grid key={idx} position="relative" border="1px solid #c4c4c4" margin="30px 0 30px 0" bgColor="#ffffff">
                             <BoardHeader>
@@ -72,7 +72,7 @@ const Board = (props) => {
                                     history.push(`/detail/${list.articleId}`)
                                 }}margin="10px 0 0 0" cursor="pointer" size="14px" color="#8e8e8e">댓글 더보기</Text>
                                 <Grid maxHeight="50px" overflow="hidden">
-                                        {list && list.comments.map((list,idx) => {
+                                        {list.comments && list.comments.map((list,idx) => {
                                             return (
                                                 <Comment key={idx}>
                                                     <TextBox>

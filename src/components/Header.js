@@ -38,7 +38,9 @@ const Header = () => {
                                     }}/>
                                 </Grid>
                                 <Grid cursor="pointer" margin="0 0 0 20px">
-                                    <AddBoxIcon />
+                                    <AddBoxIcon onClick={() => {
+                                        history.push('/add')
+                                    }}/>
                                 </Grid>
                                 <Grid>
                                     <Grid _onClick={() => {
