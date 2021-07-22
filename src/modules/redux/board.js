@@ -166,7 +166,7 @@ export default handleActions({
         draft.commentlist = action.payload.comments
     }),
     [COMMENTCREATE]: (state, action) => produce(state, (draft) => {
-        draft.commentlist[action.payload.index] = action.payload.newComment
+        // draft.commentlist[action.payload.index] = action.payload.newComment
     }),
     [COMMENTDELETE]: (state, action) => produce(state, (draft) => {
         

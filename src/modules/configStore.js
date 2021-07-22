@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 // middleware
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 
 // reducers
 import user from './redux/user';
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
 	router: connectRouter(history),
 });
 
-const middleware = [thunk.withExtraArgument({ history }), logger];
+const middleware = [thunk.withExtraArgument({ history })];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 export { history };
 
