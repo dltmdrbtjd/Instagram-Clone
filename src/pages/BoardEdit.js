@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { apis } from '../../shared/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { imageCreators } from '../modules/redux/image';
 import { boardActions } from '../modules/redux/board';
@@ -79,7 +80,8 @@ const BoardEdit = ({ match }) => {
 			try {
 				const {
 					data: { content, imageUrl },
-				} = dispatch(boardActions.addBoardDB(content ,imageUrl));
+				} = await apis.UpdateArticles(id)
+                setContents({content ,imageUrl});
 			} catch (e) {
 			}
 		};

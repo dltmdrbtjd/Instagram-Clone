@@ -22,7 +22,7 @@ const LIKE = 'article/LIKE';
 /// article
 const loadArticle = createAction(LOAD, (articles) => ({articles}));
 const deleteArticle = createAction(DELETE, (articleId) => ({articleId}));
-const addArticle = createAction(ADD, (content) => ({content}));
+const addArticle = createAction(ADD, (articles) => ({articles}));
 const editArticle = createAction(EDIT, (id,newArticle) => ({id,newArticle}))
 /// comments
 const loadComment = createAction(COMMENTLOAD, (comments) => ({comments}));
@@ -122,18 +122,16 @@ export const addBoardDB = (content) => {
     }
 }
 
-const editBoardDB = (id,newArticle) => {
-    return function(dispatch, getState, {history}){
-        apis
-        .UpdateArticles(id,newArticle)
-        .then((res) => {
-            dispatch(editArticle(id,newArticle))
+const editBoardDB = (id,newArticle) => 
+    async (dispatch, getState, {history}) =>{
+        try {
+            await apis.UpdateArticles(id,newArticle);
+            dispatch(editArticle(id,newArticle));
             history.goBack();
-        }).catch((err) =>{
-            console.log(err)
-        })
+        }catch (e){
+        }
     }
-}
+
 
 export default handleActions({
     [LOAD]: (state, action) => produce(state, (draft) => {
@@ -153,6 +151,9 @@ export default handleActions({
             (comment) => comment.commentId !== action.payload.commentId
         )
     }),
+    [ADD]: (state, action) => produce(state, (draft) => {
+				draft.list.push(action.payload.articles);
+			}),
     [EDIT]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.articles
     }),

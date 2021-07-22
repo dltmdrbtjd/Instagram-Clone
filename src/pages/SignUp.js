@@ -15,6 +15,8 @@ const SignUp = (props) => {
     const [email,setEmail] = useState('');
     const [nick,setNick] = useState('');
 
+    const EmailCheck = React.useRef();
+
     const signup =() => {
 
     if(email === '' || nick === '' || id === '' || pw === ''){
@@ -23,7 +25,7 @@ const SignUp = (props) => {
     }
 
     if(!idCheck(id)){
-
+        
         window.alert("숫자 및 영어만 입력가능! 다시 확인해주세요!");
         return;
     }
@@ -33,6 +35,7 @@ const SignUp = (props) => {
         return;
     }
     if(!emailCheck(email)){
+        EmailCheck.current.innerText = '❌';
         window.alert("올바른 이메일 형식으로 작성 부탁드립니다!");
         return;
     }
@@ -60,6 +63,7 @@ const SignUp = (props) => {
                     </Grid>
                     <Grid width="268px" height="38px" margin="15px 40px 6px 40px">
                         <Input
+                        ref={EmailCheck}
                         placeholder="이메일"
                         _onChange={(e)=> {setEmail(e.target.value);}}
                         />
