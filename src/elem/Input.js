@@ -11,7 +11,7 @@ const Input = (props) => {
             <Grid>
                 {label && <Text margin="5px" bold>{label}</Text>}
                 <TextArea
-                    rows={10}
+                    rows={7}
                     value={value}
                     placeholder={placeholder}
                     onChange={_onChange}
@@ -68,6 +68,7 @@ const TextArea = styled.textarea`
     width: 100%;
     padding: 12px 6px;
     box-sizing: border-box;
+    resize: vertical;
 `;
 
 export default Input;

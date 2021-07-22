@@ -81,10 +81,10 @@ const BoardAdd = (props) => {
             <Header/>
                 <Section>
                 <Grid position="relative" border="1px solid #c4c4c4" margin="30px 0 30px 0" bgColor="#ffffff">
-                    <Text>
+                    <Text margin="10px" bold size= "20px" color = "#646464" >
                         게시글 작성
                     </Text>
-                    <input 
+                    <InputBox 
                         type='file'
                         ref={fileInput}
                         onChange={filePreview}
@@ -94,13 +94,19 @@ const BoardAdd = (props) => {
                         src={preview ? preview : "http://via.placeholder.com/400x300"}
                     />
                     <Input
-                    label="게시물 내용을 입력해주세요!"
+                    multiLine
+                    value={content}
+                    placeholder="게시물 내용을 입력해주세요!"
                     _onChange={(e) => {
                         setContent(e.target.value);
                     }}
                     />
                     <Grid>
-                        <Button _onClick={fileInput ? selectFile : withoutImgPost}>게시글 작성</Button>
+                        <Button
+                        padding="10px"
+                        _onClick={fileInput ? selectFile : withoutImgPost}
+                        >게시글 작성
+                        </Button>
                     </Grid>
                 </Grid>
             </Section>
@@ -120,10 +126,21 @@ const Section = styled.section`
     transform: translateX(-50%);
 `;
 
-const BoardHeader = styled.header`
-    display: flex;
-    align-items: center;
-    height: 60px;
+const InputBox = styled.input`
+    margin-left : 2px;
+    margin-bottom: 5px;
+    width :95%;
+    display: inline-block;
+    padding: .5em .75em;
+    color: #999; font-size:
+    inherit; line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+
 `;
 
 export default BoardAdd;
