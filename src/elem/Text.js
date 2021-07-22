@@ -20,14 +20,13 @@ const Text = (props) => {
 }
 
 Text.defaultProps = {
-    size: false,
     bold: false,
     margin: false,
     _onClick: () => {},
 }
 
 const Textbox = styled.p`
-    ${(props) => (props.size ? `font-size:${(props.size)}`:"")};
+    font-size: ${(props) => props.size};
     ${(props) => (props.bold ? `font-weight:600`:`font-weight:400`)};
     color: ${(props) => props.color};
     ${(props) => (props.margin ? `margin:${(props.margin)}`:"")};

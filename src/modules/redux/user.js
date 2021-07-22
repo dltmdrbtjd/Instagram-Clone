@@ -33,7 +33,7 @@ const setLoginDB = (id,pw) => {
             history.replace('/');
         })
         .catch((err) => {
-            console.log(err)
+            window.alert("아이디 및 비밀번호를 다시 확인해주세요.")
         });
     };
 };
@@ -47,7 +47,7 @@ const registerDB = (email, nick, id, pw) => {
             history.push('/login');
         })
         .catch((err) => {
-            console.log(err);
+            window.alert("이미 존재하는 아이디 및 이메일입니다.")
         });
     };
 };

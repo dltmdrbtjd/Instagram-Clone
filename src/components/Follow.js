@@ -31,15 +31,15 @@ const Follow = (props) => {
             <Section>
                 <Grid bgColor="#ffffff" border="1px solid #c4c4c4">
                     <RecommendBox>
-                        {recommend && recommend.map((list) => {
+                        {recommend && recommend.map((list,idx) => {
                             return (
-                                    <Grid width="20%" is_flex>
+                                    <Grid width="25%" key={idx} is_flex>
                                         <Grid margin="0 10px 0 0"cover="cover" position="center" radius="40px" width="40px" height="40px" bg={list.profileImageUrl}></Grid>
                                         <Grid width="60%">
                                             <Text>{list.nickname}</Text>
                                             <Text _onClick={() => {
                                                 Following(list.userId)
-                                            }}color="#39A2DB" cursor="pointer" margin="3px 0 0 0"size="14px">팔로우</Text>
+                                            }}color="#39A2DB" cursor="pointer" margin="3px 0 0 0" size="14px">팔로우</Text>
                                         </Grid>
                                     </Grid>
                             )

@@ -160,7 +160,7 @@ export default handleActions({
         draft.detail = action.payload.article;
     }),
     [DELETE]: (state, action) => produce(state, (draft) => {
-        draft.list = draft.list.filter((article) => article.articleId !== action.payload.articleId)
+        // draft.list = draft.list.filter((article) => article.articleId !== action.payload.articleId)
     }),
     [COMMENTLOAD]: (state, action) => produce(state, (draft) => {
         draft.commentlist = action.payload.comments

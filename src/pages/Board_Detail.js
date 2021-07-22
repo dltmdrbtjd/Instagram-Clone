@@ -21,10 +21,9 @@ const BoardDetail = (props) => {
         setComment('');
     }
     const dispatch = useDispatch();
-    // const board_list = useSelector((state) => state.board.list);
     let board_index = parseInt(props.match.params.id);
-    // const detail_board = board_list[board_index];
     const detail = useSelector((state) => state.board.detail);
+    const userid = localStorage.getItem('username');
 
     useEffect(() => {
         dispatch(boardActions.detailArticleDB(board_index));
@@ -42,12 +41,20 @@ const BoardDetail = (props) => {
                                 <Text cursor="pointer" bold size="14px" color="#262626"margin="0 0 0 10px">{detail && detail.author}</Text>
                             </Grid>
                             <Grid width="22%" is_flex>
-                                <MiniBtn onClick={() => {
-                                    history.push(`/edit/${detail.articleId}`)
-                                }}>수정</MiniBtn>
-                                <MiniBtn onClick={() => {
-                                    dispatch(boardActions.deleteArticleDB(detail && detail.articleId))
-                                }}>삭제</MiniBtn>
+                                {detail.username === userid ? (
+                                    <>
+                                        <MiniBtn onClick={() => {
+                                            history.push(`/edit/${detail.articleId}`)
+                                        }}>수정</MiniBtn>
+                                        <MiniBtn onClick={() => {
+                                            dispatch(boardActions.deleteArticleDB(detail && detail.articleId))
+                                        }}>삭제</MiniBtn>
+                                    </>
+                                ):(
+                                    <MiniBtn onClick={() => {
+                                        history.push('/')
+                                    }}>목록으로 이동</MiniBtn>
+                                )}
                             </Grid>
                         </BoardHeader>
                         <Image shape="rectangle" src={detail && detail.imageUrl}/>
@@ -87,10 +94,14 @@ const BoardDetail = (props) => {
                                                 <Text size="14px">{list.content}</Text>
                                             </TextBox>
                                             <Grid cursor="pointer" width="auto">
-                                                <DeleteForeverIcon onClick={() => {
-                                                    dispatch(boardActions.deleteCommentDB(list.articleId,list.commentId,list.articleId))
-                                                }}style={{ fontSize: 14, marginRight: "6px" }} />
-                                                {/* <CreateIcon style={{ fontSize: 14, marginRight: "6px" }} /> */}
+                                                {list.username === userid ? (
+                                                    <DeleteForeverIcon onClick={() => {
+                                                        dispatch(boardActions.deleteCommentDB(list.articleId,list.commentId,list.articleId))
+                                                    }}style={{ fontSize: 14, marginRight: "6px" }} />
+                                                ):(
+                                                    ""
+                                                )}
+                                                
                                                 <FavoriteBorderIcon style={{ fontSize: 14 }}/>
                                             </Grid>
                                         </Comment>
