@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,10 +9,10 @@ import AWS from 'aws-sdk';
 import Header from '../components/Header';
 import { Text, Input, Button , Grid , Image} from '../elem';
 
-const BoardEdit = ({match}) => {
+const BoardEdit = ({ match }) => {
     const dispatch = useDispatch();
     const preview = useSelector((state) => state.image.preview);
-    const [contents, setContent] = React.useState({content:'' });
+    const [contents, setContents] = React.useState({content:''});
 
     const {
         params: { id },
@@ -54,7 +54,7 @@ const BoardEdit = ({match}) => {
             params: {
                 Bucket : '22instaclone',
                 Key: file.name + date.getTime() + '.jpg',
-                body: file,
+                Body: file,
             },
         });
         
@@ -74,6 +74,17 @@ const BoardEdit = ({match}) => {
         });
     };
     
+    useEffect(() => {
+		const fetchArticle = async () => {
+			try {
+				const {
+					data: { content, imageUrl },
+				} = dispatch(boardActions.addBoardDB(content ,imageUrl));
+			} catch (e) {
+			}
+		};
+		fetchArticle();
+	}, [id]);
 
 
     return (
@@ -81,13 +92,10 @@ const BoardEdit = ({match}) => {
             <Header/>
                 <Section>
                 <Grid position="relative" border="1px solid #c4c4c4" margin="30px 0 30px 0" bgColor="#ffffff">
-                    <BoardHeader>
-                        <Grid radius="22px"cover="cover" position="center"  margin="0 0 0 20px" height="22px" width="22px"/>
-                    </BoardHeader>
-                    <Text>
-                        {"게시글 작성"}
+                    <Text margin="10px" bold size= "20px" color = "#646464" >
+                        게시글 작성
                     </Text>
-                    <input 
+                    <InputBox 
                         type='file'
                         ref={fileInput}
                         onChange={filePreview}
@@ -97,14 +105,24 @@ const BoardEdit = ({match}) => {
                         src={preview ? preview : "http://via.placeholder.com/400x300"}
                     />
                     <Input
-                        value={contents.content}
-                        label="게시물 내용을 입력해주세요!"
-                        _onChange={(e) => {
-                            setContent(e.target.value);
-                        }}
+                    multiLine
+                    value={contents}
+                    placeholder="게시물 내용을 입력해주세요!"
+                    _onChange={(e) => {
+                        setContents({...contents, content: e.target.value});
+                    }}
                     />
                     <Grid>
-                        {/* <Button _onClick={fileInput ? selectFile : withoutImgPost}>게시글 작성</Button> */}
+                        <Button
+                        padding="10px"
+                        _onClick={() => {
+                            const result = window.confirm('게시물을 수정하시겠습니까??')
+                            if(result){
+                                selectFile();
+                            }
+                        }}
+                        >게시글 작성
+                        </Button>
                     </Grid>
                 </Grid>
             </Section>
@@ -124,10 +142,20 @@ const Section = styled.section`
     transform: translateX(-50%);
 `;
 
-const BoardHeader = styled.header`
-    display: flex;
-    align-items: center;
-    height: 60px;
-`;
+const InputBox = styled.input`
+    margin-left : 2px;
+    margin-bottom: 5px;
+    width :95%;
+    display: inline-block;
+    padding: .5em .75em;
+    color: #999; font-size:
+    inherit; line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
 
+`;
 export default BoardEdit;
