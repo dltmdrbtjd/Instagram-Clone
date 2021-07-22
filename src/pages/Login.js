@@ -42,11 +42,6 @@ const Login = (props) => {
                             로그인
                         </Button>
                     </Grid>
-                    <Grid width="268px" height="20px" margin="32px 40px 12px 40px">
-                        <TextBox>
-                            <Text color ="#0095f6" >facebook 으로 로그인</Text>
-                        </TextBox>
-                    </Grid>
                     <Secret>
                         <SecretP>비밀번호를 잊으셨나요?</SecretP>
                     </Secret>
@@ -64,13 +59,6 @@ const Login = (props) => {
                         </Text>
                     </TextBox>
                 </Grid>
-                <Down>
-                    <DownP>앱을 다운로드 하세요</DownP>
-                </Down>
-                <ImageContainer>
-                    <Grid cursor="pointer" cover="cover" margin="5px" width="135px" height="40px" bg="https://22instaclone.s3.ap-northeast-2.amazonaws.com/apple.jpg"></Grid>
-                    <Grid cursor="pointer" cover="cover" margin="5px" width="135px" height="40px" bg="https://22instaclone.s3.ap-northeast-2.amazonaws.com/google.jpg"></Grid>
-                </ImageContainer>
             </Grid>
             <Footer/>
         </Container>
@@ -96,30 +84,6 @@ const Secret = styled.div`
     width: 348px;
     height: 20px;
     margin-top: 30px;
-`;
-
-const Down = styled.div`
-    text-align: center;
-    width: 348px;
-    height: 63px;
-    margin-top: 20px;
-`;
-
-const DownP = styled.p`
-    font-size: 15px;
-`;
-
-const ImageContainer = styled.div`
-    width: 348px;
-    height: 53px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-`;
-
-const ImageA = styled.img`
-    width : 136px;
-    cursor: pointer;
 `;
 
 const TextBox = styled.div`

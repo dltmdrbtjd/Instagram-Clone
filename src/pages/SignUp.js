@@ -58,9 +58,6 @@ const SignUp = (props) => {
                             <span>가입하세요</span>
                         </Textbox>
                     </Grid>
-                    <Grid width="268px" height="20px" margin="12px 40px 22px 40px">
-                        <Button padding="5px 10px 5px 10px">facebook 으로 로그인</Button>
-                    </Grid>
                     <Grid width="268px" height="38px" margin="15px 40px 6px 40px">
                         <Input
                         ref={EmailCheck}
@@ -106,13 +103,6 @@ const SignUp = (props) => {
                             </Text>
                     </TextBox>
                 </Grid>
-                <Down>
-                    <DownP>앱을 다운로드 하세요</DownP>
-                </Down>
-                <ImageContainer>
-                    <Grid cursor="pointer" cover="cover" margin="5px" width="135px" height="40px" bg="https://22instaclone.s3.ap-northeast-2.amazonaws.com/apple.jpg"></Grid>
-                    <Grid cursor="pointer" cover="cover" margin="5px" width="135px" height="40px" bg="https://22instaclone.s3.ap-northeast-2.amazonaws.com/google.jpg"></Grid>
-                </ImageContainer>
             </Grid>
             <Footer/>
         </Container>
@@ -127,25 +117,6 @@ const Container = styled.div`
     left: 50%;
     top: 54px;
     transform: translateX(-50%);
-`;
-
-const Down = styled.div`
-    text-align: center;
-    width: 348px;
-    height: 63px;
-    margin-top: 20px;
-`;
-
-const DownP = styled.p`
-    font-size: 15px;
-`;
-
-const ImageContainer = styled.div`
-    width: 348px;
-    height: 53px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
 `;
 
 const TextBox = styled.div`
