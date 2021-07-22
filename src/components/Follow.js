@@ -33,7 +33,7 @@ const Follow = (props) => {
                     <RecommendBox>
                         {recommend && recommend.map((list,idx) => {
                             return (
-                                    <Grid width="20%" key={idx} is_flex>
+                                    <Grid width="25%" key={idx} is_flex>
                                         <Grid margin="0 10px 0 0"cover="cover" position="center" radius="40px" width="40px" height="40px" bg={list.profileImageUrl}></Grid>
                                         <Grid width="60%">
                                             <Text>{list.nickname}</Text>

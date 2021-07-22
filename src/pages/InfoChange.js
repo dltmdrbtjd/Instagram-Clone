@@ -63,7 +63,7 @@ const InfoChange = (props) => {
             .then((res) => {
                 history.goBack();
             }).catch((err) => {
-                console.log(err)
+                window.alert('닉네임을 작성해주세요.')
             })
 			return;
 		}
